@@ -16,9 +16,8 @@ namespace Capstone_1_Pig_Latin
             do
             {
                 Console.Write("Enter text to translate: ");
-                string pigLatin = AnslatorTay(Console.ReadLine());
-                Console.WriteLine(pigLatin);
-
+                AnslatorTay(Console.ReadLine());
+                
                 rerun = Continue();
             } while (rerun);
         }
@@ -45,37 +44,74 @@ namespace Capstone_1_Pig_Latin
             }
             return run;
         }
-        public static string AnslatorTay(string pig)
+        public static void AnslatorTay(string pig)
         {
-            string translated, partial, record;
-            int firstVowel;
-            //cleans whitespace off and brings it to lower
+            bool firstLetter = false;
+            char[] vowels = { 'a', 'e', 'i', 'o', 'u' };
+
+            //cleans whitespace off, brings it to lower, and puts it in a char array
             pig = pig.Trim();
             pig = pig.ToLower();
+            char[] pigArray = pig.ToCharArray();
+            int[] charIndex = new int [pig.Length];
 
-            //finds first vowel - records it
-            char[] vowels = { 'a', 'e', 'i', 'o', 'u' };
-            
-            int[] charIndex = new int [pig.Length]; 
-            //compares each letter in the vowel array with each letter in the char array
+            //Is the first leter a vowel?
             for (int i = 0; i < 5; i++)
             {
-                charIndex[i] = pig.IndexOf(vowels[i]);
+                if (pigArray[0] == vowels[i])
+                {
+                    firstLetter = true;
+                    continue;
+                }
+            }
+            if (firstLetter)
+            {
+                VowelConcat(pig);
+                Console.WriteLine("Vowel First!");
+            }
+            else
+            {
+                ConsConcat(pigArray, pig);
+                Console.WriteLine("Consonant first!");
+            }
+        }
+        public static void VowelConcat(string pig)
+        {
+            Console.WriteLine(pig + "way");
+        }
+        public static void ConsConcat(char[] pigArray, string pig)
+        {
+            int indexNum = 0;
+            string holder = "";
+            string final;
+            char[] vowels = { 'a', 'e', 'i', 'o', 'u' };
+
+
+            int pigLength = pig.Length - 1;
+            for (int i = 0; i < pig.Length; i++)
+            {
+                for (int i2 = 0; i2 < 5; i2++)
+                {
+                    if (vowels[i2] == pigArray[i])
+                    {
+                        indexNum = i;
+                        continue;
+                    }
+                }
+                //This is how we get out after only the first match
+                if (indexNum > 0)
+                {
+                    continue;
+                }
+            }
+            for (int i = 0; i == indexNum; i++)
+            {
+                holder = holder + pigArray[i];
             }
             
-
-
-
-            record = "p";
-
-            //trims first sound
-
-            //concats the final word
-
-            partial = pig;
-            translated = partial + record + "ay";
-
-            return translated;
+            final = pig.Substring(indexNum, pigLength);
+            Console.WriteLine(final + holder + "ay");
         }
+        
     }
 }
