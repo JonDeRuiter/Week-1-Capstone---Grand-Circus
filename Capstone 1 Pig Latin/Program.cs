@@ -10,13 +10,19 @@ namespace Capstone_1_Pig_Latin
     {
         static void Main(string[] args)
         {
-            bool rerun;
+            bool rerun, isWord;
 
             Console.WriteLine("Welcoem to the Pig Latin Translator!");
             do
             {
                 Console.Write("Enter text to translate: ");
-                AnslatorTay(Console.ReadLine());
+                string pigLatin = Console.ReadLine();
+                isWord = WeedOut(pigLatin);
+                if (isWord)
+                {
+                    pigLatin = AnslatorTay(pigLatin);
+                }
+                Console.WriteLine(pigLatin);
                 
                 rerun = Continue();
             } while (rerun);
@@ -44,7 +50,7 @@ namespace Capstone_1_Pig_Latin
             }
             return run;
         }
-        public static void AnslatorTay(string pig)
+        public static string AnslatorTay(string pig)
         {
             bool firstLetter = false;
             char[] vowels = { 'a', 'e', 'i', 'o', 'u' };
@@ -66,20 +72,21 @@ namespace Capstone_1_Pig_Latin
             }
             if (firstLetter)
             {
-                VowelConcat(pig);
-                Console.WriteLine("Vowel First!");
+                pig = VowelConcat(pig);
+                return pig;
             }
             else
             {
-                ConsConcat(pigArray, pig);
-                Console.WriteLine("Consonant first!");
+                pig = ConsConcat(pigArray, pig);
+                return pig;
             }
         }
-        public static void VowelConcat(string pig)
+        public static string VowelConcat(string pig)
         {
-            Console.WriteLine(pig + "way");
+            pig = pig + "way";
+            return pig;
         }
-        public static void ConsConcat(char[] pigArray, string pig)
+        public static string ConsConcat(char[] pigArray, string pig)
         {
             int indexNum = 0;
             string holder = "";
@@ -109,8 +116,37 @@ namespace Capstone_1_Pig_Latin
                 holder = holder + pigArray[i];
             }
             final = pig.Substring(indexNum);
-            Console.WriteLine(final + holder + "ay");
+            return (final + holder + "ay");
         }
-        
+        public static bool WeedOut(string pig)
+        {
+            bool run = true;
+            int counter = 0;
+            char[] pigArray = pig.ToCharArray();
+            char[] symbArray = {'~', '@', '#', '$', '%', '^', '&', '*', '(', ')', '+', '=', '[', ']', '{', '}', '|', '/', '<', '>', '-', '*', '_' };
+
+            //Weeds out user entries that have numbers or symbols in them, forcing them to just print rather than go through the translator
+            //With manually entering in the symbols in the array, it allowed me to leave punctuation out such that punctuation is allowed on the input string and contractions work
+            for (int i = 0; i < pig.Length; i++)
+            {
+                for (int i2 = 0; i2 < symbArray.Length; i2++)
+                {
+                    if (pigArray[i] == symbArray[i2])
+                    {
+                        counter++;
+                    }
+                }
+            }
+
+            for (int i = 0; i < pig.Length; i++)
+            {
+                if (Char.IsDigit(pigArray[i]) || counter > 0)
+                {
+                    run = false;
+                }
+            }
+                       
+            return run;
+        }
     }
 }
