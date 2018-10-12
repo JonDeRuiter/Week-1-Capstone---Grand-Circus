@@ -95,21 +95,20 @@ namespace Capstone_1_Pig_Latin
                     if (vowels[i2] == pigArray[i])
                     {
                         indexNum = i;
-                        continue;
+                        break;
                     }
                 }
                 //This is how we get out after only the first match
                 if (indexNum > 0)
                 {
-                    continue;
+                    break;
                 }
             }
-            for (int i = 0; i == indexNum; i++)
+            for (int i = 0; i < indexNum; i++)
             {
                 holder = holder + pigArray[i];
             }
-            
-            final = pig.Substring(indexNum, pigLength);
+            final = pig.Substring(indexNum);
             Console.WriteLine(final + holder + "ay");
         }
         
