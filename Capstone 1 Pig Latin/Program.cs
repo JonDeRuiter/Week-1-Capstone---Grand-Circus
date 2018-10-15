@@ -17,10 +17,11 @@ namespace Capstone_1_Pig_Latin
             {
                 Console.Write("Enter text to translate: ");
                 string pigLatin = Console.ReadLine();
+                //string [] wordArray = 
                 isWord = WeedOut(pigLatin);
                 if (isWord)
                 {
-                    pigLatin = AnslatorTay(pigLatin);
+                    pigLatin = AnslatorTay(pigLatin + " ");
                 }
                 Console.WriteLine(pigLatin);
                 
